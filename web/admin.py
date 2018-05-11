@@ -5,9 +5,9 @@ db = os.getenv('DB')
 debug = os.getenv('DEBUG', False)
 pass_file = os.getenv('ADMIN_PASSWORD_FILE', None)
 
-option_a = os.getenv('OPTION_A', "Cats")
-option_b = os.getenv('OPTION_B', "Dogs")
-option_c = os.getenv('OPTION_C', "Whales")
+option_a = os.getenv('OPTION_A', "COBOL")
+option_b = os.getenv('OPTION_B', "DotNet")
+option_c = os.getenv('OPTION_C', "Java")
 
 hostname = socket.gethostname()
 

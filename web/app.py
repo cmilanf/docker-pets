@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, make_response, redirect
 import random, socket, time, json, os, sys, ast, consul
 
-option_a = os.getenv('OPTION_A', "Cats")
-option_b = os.getenv('OPTION_B', "Dogs")
-option_c = os.getenv('OPTION_C', "Whales")
+option_a = os.getenv('OPTION_A', "COBOL")
+option_b = os.getenv('OPTION_B', "DotNet")
+option_c = os.getenv('OPTION_C', "Java")
 vote = option_a
 
 db = os.getenv('DB', False)
 db_exists = False
-debug = os.getenv('DEBUG', False)
+debug = os.getenv('DEBUG', True)
 threaded = os.getenv('THREADED', False)
 
 option_a_images = os.listdir('./static/option_a')
@@ -16,8 +16,8 @@ option_b_images = os.listdir('./static/option_b')
 option_c_images = os.listdir('./static/option_c')
 
 
-healthy = True
-version ='1.0'
+healthy = False
+version ='2.0'
 hostname = socket.gethostname()
 
 print "Starting web container %s" % hostname
@@ -72,13 +72,13 @@ def index():
         x, hits = c.kv.get('hits')
         newHits = int(hits["Value"]) + 1
         c.kv.put('hits', str(newHits))
-        hit_string = str(newHits) + " Pets Served"
+        hit_string = str(newHits) + " programming languages Served"
 
     if not db:
         hit_string = ""
         db_exists == str(db_exists)
 
-    return render_template('pets.html', url=url, hostname=hostname, hit_string=hit_string, title=vote, version=version, db_exists=db_exists)
+    return render_template('languages.html', url=url, hostname=hostname, hit_string=hit_string, title=vote, version=version, db_exists=db_exists)
 
 @app.route("/vote", methods=['POST','GET'])
 def vote():

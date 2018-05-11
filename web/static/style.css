@@ -19,7 +19,7 @@ div.title p {
 
 
 div.wrapper {
-  width: 900px;
+  width: 1024px;
   margin-top:40px;
   position:absolute;
   left:50%;
@@ -34,7 +34,6 @@ div.petOpts {
   left:50%;
   margin-left: -275px;
   text-align: center;
-
 }
 
 div.petOptsLeft {

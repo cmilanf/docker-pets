@@ -1,7 +1,7 @@
 version: '3.1'
 services:
     web:
-        image: docker-pets:latest
+        image: cmilanf/dockersamples:languages-1.0
         ports:
             - 80:5000
         healthcheck:

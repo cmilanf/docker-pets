@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-pets-web-svc
+  labels:
+    app: docker-pets
+spec:
+  ports:
+    - name: vote
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+    - name: results
+      protocol: TCP
+      port: 8080
+      targetPort: 7000
+  selector:
+    app: docker-pets
+    component: web
+    version: v1.0
+  type: LoadBalancer
+  clusterIP: 10.241.0.2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-pets-web
+  labels:
+    app: docker-pets
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docker-pets
+      component: web
+      version: v1.0
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: docker-pets
+        component: web
+        version: v1.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - web
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - image: cmilanf/dockersamples:languages-1.0
+        name: docker-pets-web
+        ports:
+        - containerPort: 5000
+          name: httpvote
+        - containerPort: 7000
+          name: httpresults
+        env:
+        - name: DB
+          value: 'docker-pets-db-consul.default.svc.cluster.local'
+        - name: THREADED
+          value: 'True'
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1"

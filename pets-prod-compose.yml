@@ -1,7 +1,7 @@
 version: '3.1'
 services:
     web:
-        image: chrch/docker-pets:1.0
+        image: cmilanf/dockersamples:languages-1.0
         deploy:
             mode: replicated
             replicas: 3
